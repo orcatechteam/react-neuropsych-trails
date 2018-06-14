@@ -57,7 +57,7 @@ export default class Trails extends React.PureComponent {
 
 		// clear any error and update the progress
 		clearTimeout(this.timeout);
-		this.setState({ progress: index + 1, error: "" });
+		this.setState({ error: "" });
 
 		// notify parent
 		this.props.onSuccess(date, trail.tokens[index]);
@@ -157,10 +157,18 @@ export default class Trails extends React.PureComponent {
 		if (scaleY < scaleX) {
 			scale = scaleY;
 		}
+		let width = Math.floor(trail.width * scale) - 10;
+		let height = Math.floor(trail.height * scale) - 10;
+		if (width < 0) {
+			return null;
+		}
+		if (height < 0) {
+			return null;
+		}
 		return (<svg
 			xmlns="http://www.w3.org/2000/svg"
-			width={ Math.floor(trail.width * scale) - 10 }
-			height={ Math.floor(trail.height * scale) - 10 }
+			width={ width }
+			height={ height }
 			onClick={ this.handleMiss }>
 			{ this.renderMarkers(trail.tokens,trail.diameter,scale) }
 		</svg>);
