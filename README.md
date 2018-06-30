@@ -1,6 +1,6 @@
 # ORCATECH Trail Making Tests
 
-[![Build Status](https://travis-ci.org/orcatechteam/react-neuropsych-trails.svg?branch=v0.0.2)](https://travis-ci.org/orcatechteam/react-neuropsych-trails)
+[![Build Status](https://travis-ci.org/orcatechteam/react-neuropsych-trails.svg?branch=v0.0.3)](https://travis-ci.org/orcatechteam/react-neuropsych-trails)
 
 The [Trailing Making Tests A & B](https://en.wikipedia.org/wiki/Trail_Making_Test)
 implemented as a [React](https://reactjs.org) component. The component will size
