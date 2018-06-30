@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Styles from 'styles';
 import Theme from 'theme';
-import { withStyles } from 'material-ui';
+import { withStyles } from '@material-ui/core/styles';
 
 let popup = (props) => {
 	if (props.onlyIf === false) {

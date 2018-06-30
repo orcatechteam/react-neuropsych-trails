@@ -28,11 +28,10 @@ module.exports = {
 		}]
 	},
 	plugins: [
-		new webpack.DefinePlugin({
-			'process.env': {
-				NODE_ENV: JSON.stringify('production'),
-			},
-		}),
-		new webpack.optimize.UglifyJsPlugin()
-	],
+                // ensure that we get a production build of any dependencies
+                // this is primarily for React, where this removes 179KB from the bundle
+                // new webpack.DefinePlugin({
+                //       'process.env.NODE_ENV': '"production"'
+                //}),
+        ]
 };

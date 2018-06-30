@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Styles from './styles';
 import Theme from './theme';
 import Marker from './marker';
 import PopUp from './popup';
@@ -157,8 +156,8 @@ export default class Trails extends React.PureComponent {
 		if (scaleY < scaleX) {
 			scale = scaleY;
 		}
-		let width = Math.floor(trail.width * scale) - 10;
-		let height = Math.floor(trail.height * scale) - 10;
+		let width = Math.floor(trail.width * scale);
+		let height = Math.floor(trail.height * scale);
 		if (width < 0) {
 			return null;
 		}
@@ -167,8 +166,8 @@ export default class Trails extends React.PureComponent {
 		}
 		return (<svg
 			xmlns="http://www.w3.org/2000/svg"
-			width={ width }
-			height={ height }
+			width={ width*1.1 }
+			height={ height*1.1 }
 			onClick={ this.handleMiss }>
 			{ this.renderMarkers(trail.tokens,trail.diameter,scale) }
 		</svg>);

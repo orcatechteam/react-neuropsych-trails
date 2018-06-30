@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Styles from 'styles';
-import { withStyles } from 'material-ui';
+import { withStyles } from '@material-ui/core/styles';
 
 class Marker extends React.PureComponent {
 
