@@ -62,7 +62,7 @@ export default class Trails extends React.PureComponent {
 		this.props.onSuccess(date, trail.tokens[index]);
 
 		// check if trails has been completed and notify if true
-		if (this.props.progress > trail.tokens.length) {
+		if (this.props.progress >= trail.tokens.length) {
 			this.props.onCompleted(date)
 		}
 	}
