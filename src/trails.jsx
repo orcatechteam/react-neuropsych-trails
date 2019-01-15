@@ -13,16 +13,16 @@ import ContainerDimensions from 'react-container-dimensions';
 export default class Trails extends React.PureComponent {
 
 	static propTypes = {
-		part: PropTypes.string.isRequired,
-		feedback: PropTypes.bool,
-		progress: PropTypes.number,
-		errorText: PropTypes.string,
-		errorDuration: PropTypes.number,
 		completedText: PropTypes.string,
-		onSuccess: PropTypes.func,
-		onError: PropTypes.func,
+		errorDuration: PropTypes.number,
+		errorText: PropTypes.string,
+		feedback: PropTypes.bool,
 		onCompleted: PropTypes.func,
-		onMiss: PropTypes.func
+		onError: PropTypes.func,
+		onMiss: PropTypes.func,
+		onSuccess: PropTypes.func,
+		part: PropTypes.string.isRequired,
+		progress: PropTypes.number,
 	}
 
 	static defaultProps = {
@@ -38,13 +38,13 @@ export default class Trails extends React.PureComponent {
 		onMiss: (date, correctToken, x, y) => {}
 	}
 
-	state = {
-		error: "",
-	}
-
 	constructor(props) {
 		super(props);
 		this.timeout = undefined;
+	}
+
+	state = {
+		error: "",
 	}
 
 	handleSuccess = (e, index) => {
@@ -63,7 +63,7 @@ export default class Trails extends React.PureComponent {
 
 		// check if trails has been completed and notify if true
 		if (this.props.progress >= trail.tokens.length-1) {
-			this.props.onCompleted(date)
+			this.props.onCompleted(date);
 		}
 	}
 
@@ -84,7 +84,9 @@ export default class Trails extends React.PureComponent {
 			// remove the error after a predetermined duration
 			clearTimeout(this.timeout);
 			this.timeout = setTimeout(
-				() => { this.setState({ error: "" }) },
+				() => {
+					this.setState({ error: "" });
+				},
 				this.props.errorDuration
 			);
 		}
@@ -124,7 +126,7 @@ export default class Trails extends React.PureComponent {
 
 			// if next in line to be selected handle with success
 			// else handle with error
-			let handler = this.props.progress == i ?
+			let handler = this.props.progress === i ?
 				(e) => this.handleSuccess(e, i) :
 				(e) => this.handleError(e, i);
 
@@ -136,16 +138,17 @@ export default class Trails extends React.PureComponent {
 			// add the marker keyed to the token
 			markers.push(
 				<Marker
-					key={"trails-marker-" + tokens[i].text}
 					cx={Math.floor(tokens[i].x * scale)}
 					cy={Math.floor(tokens[i].y * scale)}
-					r={Math.floor(diameter/2 * scale)}
 					fontSize={Math.floor(diameter/2 * 8/10 * scale)}
-					theme={theme}
+					key={"trails-marker-" + tokens[i].text}
+					onClick={handler}
+					r={Math.floor(diameter/2 * scale)}
 					text={tokens[i].text}
-					onClick={handler}/>);
+					theme={theme}
+				/>);
 		}
-		return markers
+		return markers;
 	}
 
 	renderSVG = (dim) => {
@@ -164,27 +167,40 @@ export default class Trails extends React.PureComponent {
 		if (height < 0) {
 			return null;
 		}
-		return (<svg
-			xmlns="http://www.w3.org/2000/svg"
-			width={ width*1.1 }
-			height={ height*1.1 }
-			onClick={ this.handleMiss }>
-			{ this.renderMarkers(trail.tokens,trail.diameter,scale) }
-		</svg>);
+		return (
+			<svg
+				className="trails-svg"
+				height={height*1.1}
+				onClick={this.handleMiss}
+				width={width*1.1}
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				{ this.renderMarkers(trail.tokens,trail.diameter,scale) }
+			</svg>
+		);
 	}
 
 	render() {
 		let trail = this.trail();
 		return (
-			<div style={{position:"relative", height:"100%"}}>
+			<div style={{ position: "relative", height: "100%" }}>
 				<ContainerDimensions>
 					{ this.renderSVG }
 				</ContainerDimensions>
-				<PopUp onlyIf={this.state.error !== ""} theme={Theme.error} fontSize="3em" width={trail.width}>
+				<PopUp
+					fontSize="3em"
+					onlyIf={this.state.error !== ""}
+					theme={Theme.error}
+					width={trail.width}
+				>
 					{this.props.errorText}
 				</PopUp>
-				<PopUp onlyIf={this.props.progress >= trail.tokens.length} theme={Theme.success} width={trail.width}>
-						{this.props.completedText}
+				<PopUp
+					onlyIf={this.props.progress >= trail.tokens.length}
+					theme={Theme.success}
+					width={trail.width}
+				>
+					{this.props.completedText}
 				</PopUp>
 			</div>
 		);
