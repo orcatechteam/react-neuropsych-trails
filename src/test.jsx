@@ -67,6 +67,7 @@ class Test extends React.Component {
 		if (this.state.showTest) {
 			return (
 				<Trails
+						beginEndLabels
 						part={this.props.part}
 						progress={this.state.progress}
 						feedback={true}
@@ -99,14 +100,14 @@ class Test extends React.Component {
 
 	render() {
 		return (
-			<div>
-				<div style={{textAlign:"center", height:"100vh"}}>
+			<React.Fragment>
+				<div style={{textAlign:"center", height:"100%"}}>
 					{ this.renderContent() }
 				</div>
 				<div className={this.props.classes.toolbar}>
 					{ this.renderButton() }
 				</div>
-			</div>
+			</React.Fragment>
 		)
 	}
 }

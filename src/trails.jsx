@@ -13,6 +13,7 @@ import ContainerDimensions from 'react-container-dimensions';
 export default class Trails extends React.PureComponent {
 
 	static propTypes = {
+		beginEndLabels: PropTypes.bool,
 		completedText: PropTypes.string,
 		errorDuration: PropTypes.number,
 		errorText: PropTypes.string,
@@ -26,6 +27,7 @@ export default class Trails extends React.PureComponent {
 	}
 
 	static defaultProps = {
+		beginEndLabels: false,
 		part: "A",
 		feedback: true,
 		errorText: "X",
@@ -140,7 +142,7 @@ export default class Trails extends React.PureComponent {
 				<Marker
 					cx={Math.floor(tokens[i].x * scale)}
 					cy={Math.floor(tokens[i].y * scale)}
-					fontSize={Math.floor(diameter/2 * 8/10 * scale)}
+					fontSize={Math.floor(diameter/2 * scale)}
 					key={"trails-marker-" + tokens[i].text}
 					onClick={handler}
 					r={Math.floor(diameter/2 * scale)}
@@ -149,6 +151,38 @@ export default class Trails extends React.PureComponent {
 				/>);
 		}
 		return markers;
+	}
+
+	renderBeginEndLabels = (trail, scale) => {
+		if (this.props.beginEndLabels === false) {
+			return null;
+		}
+		const firstToken = trail.tokens[0];
+		const lastToken = trail.tokens[trail.tokens.length - 1];
+		const labelStyle = {
+			fontSize: Math.floor(trail.diameter/2 * 8/10 * scale),
+			fontStyle: 'italic'
+		};
+		return (
+			<React.Fragment>
+				<text
+					className="trails-label"
+					style={labelStyle}
+					x={Math.floor(firstToken.x * scale) - Math.floor(trail.diameter/2 * scale)}
+					y={Math.floor(firstToken.y * scale) - Math.floor(trail.diameter/1.5 * scale)}
+				>
+					Begin
+				</text>
+				<text
+					className="trails-label"
+					style={labelStyle}
+					x={Math.floor(lastToken.x * scale) - Math.floor(trail.diameter/2.75 * scale)}
+					y={Math.floor(lastToken.y * scale) - Math.floor(trail.diameter/1.5 * scale)}
+				>
+					End
+				</text>
+			</React.Fragment>
+		)
 	}
 
 	renderSVG = (dim) => {
@@ -176,6 +210,7 @@ export default class Trails extends React.PureComponent {
 				xmlns="http://www.w3.org/2000/svg"
 			>
 				{ this.renderMarkers(trail.tokens,trail.diameter,scale) }
+				{this.renderBeginEndLabels(trail, scale)}
 			</svg>
 		);
 	}
