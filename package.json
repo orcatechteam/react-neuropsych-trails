@@ -1,6 +1,6 @@
 {
   "name": "@orcatech/react-neuropsych-trails",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "author": "Thomas Riley",
   "description": "React components for trail making tests parts A & B",
   "main": "dist/react-neuropsych-trails.js",
