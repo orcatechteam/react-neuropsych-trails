@@ -4,7 +4,9 @@ import Theme from './theme';
 import Marker from './marker';
 import PopUp from './popup';
 import TrailsA from './trails_a';
+import TrailsASample from './trails_a_sample';
 import TrailsB from './trails_b';
+import TrailsBSample from './trails_b_sample';
 import TrailsA12 from './trails_a_12';
 import TrailsB12 from './trails_b_12';
 import TrailTypes from './trail_types';
@@ -107,8 +109,12 @@ export default class Trails extends React.PureComponent {
 		switch (this.props.part) {
 			case TrailTypes.A:
 				return TrailsA;
+			case TrailTypes.ASample:
+				return TrailsASample;
 			case TrailTypes.B:
 				return TrailsB;
+			case TrailTypes.BSample:
+				return TrailsBSample;
 			case TrailTypes.A12:
 				return TrailsA12;
 			case TrailTypes.B12:
