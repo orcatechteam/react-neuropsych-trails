@@ -1,12 +1,12 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
+// import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import Trails from './trails';
 
-const UnicodeStart = 97;
+// const UnicodeStart = 97;
 
 const styles = {
 	toolbar: {
@@ -16,7 +16,7 @@ const styles = {
 		width: "100%",
 		textAlign: "right"
 	}
-}
+};
 
 class Test extends React.Component {
 
@@ -33,14 +33,14 @@ class Test extends React.Component {
 	}
 
 	componentWillMount() {
-		this.state.start = new Date().getTime();
+		this.setState({ start: new Date().getTime() });
 	}
 
 	update = (type, date, correctToken, selectedToken) => {
 		this.setState(prev => {
 			prev.data.push({ stamp: date.getTime(), type: type, correctToken: correctToken, selectedToken: selectedToken });
 			if (type === "Success") {
-				prev.progress++
+				prev.progress++;
 			}
 			return { data: prev.data, progress: prev.progress };
 		});
@@ -60,42 +60,46 @@ class Test extends React.Component {
 
 	handleMiss = (date, correctToken, x, y) => {
 		this.update("Miss", date, correctToken, { text: "", x: x, y: y });
+	}
 
+	handleRetry = () => {
+		this.setState({ progress: 0 });
 	}
 
 	renderContent = () => {
 		if (this.state.showTest) {
 			return (
 				<Trails
-						beginEndLabels
-						part={this.props.part}
-						progress={this.state.progress}
-						feedback={true}
-						errorText="X"
-						errorDuration={500}
-						completedText={"Completed! Please press the next button"}
-						onSuccess={this.handleSuccess}
-						onError={this.handleError}
-						onMiss={this.handleMiss}
-						onCompleted={this.handleCompleted}
-					/>);
+					beginEndLabels
+					completedText={"Completed! Please press the next button"}
+					errorDuration={500}
+					errorText="X"
+					feedback
+					onCompleted={this.handleCompleted}
+					onError={this.handleError}
+					onMiss={this.handleMiss}
+					onRetry={this.handleRetry}
+					onSuccess={this.handleSuccess}
+					part={this.props.part}
+					progress={this.state.progress}
+					retry
+				/>
+			);
 		}
-		return <pre style={{textAlign:"left"}}>{
-			JSON.stringify(
-			{
-				start: this.state.start,
-				stop: this.state.stop,
-				data: this.state.data
-			}
-			,null,2) }
-		</pre>;
+		const { start, stop, data } = this.state;
+		const debugData = JSON.stringify({ start, stop, data }, null, 2);
+		return (
+			<pre style={{ textAlign: "left" }}>
+				{debugData}
+			</pre>
+		);
 	}
 
 	renderButton = () => {
 		if (this.state.showTest) {
-			return <Button onClick={()=>{ this.setState({showTest:false})}}>Show Data</Button>
+			return <Button onClick={()=>{ this.setState({ showTest: false }); }}>Show Data</Button>;
 		}
-		return <Button onClick={()=>{ this.setState({showTest:true})}}>{"Show Trails " + this.props.part}</Button>
+		return <Button onClick={()=>{ this.setState({ showTest: true }); }}>{"Show Trails " + this.props.part}</Button>;
 	}
 
 	render() {
