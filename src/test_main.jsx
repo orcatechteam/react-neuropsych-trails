@@ -23,7 +23,7 @@ const Testt = props => (
 	<div>
 		<div style={{ color: 'black', textTransform: 'uppercase', fontWeight: 'bold', textAlign: 'center' }}>Sample</div>
 		<div className={props.classes.wrapper}>
-			<Test part="B12" />
+			<Test part="ASample" />
 		</div>
 	</div>
 );

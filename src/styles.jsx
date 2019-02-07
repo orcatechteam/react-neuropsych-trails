@@ -8,14 +8,22 @@ var styles = {
 		}
 	},
 	popUp: {
-		width: "100%",
+		display: "inline-block",
+		fontSize: "1em",
 		left: "0%",
-		top: "50%",
 		position: "absolute",
 		textAlign: "center",
-		fontSize: "1em",
+		top: "50%",
+		width: "100%",
+	},
+	popUpRetry: {
 		display: "inline-block",
-		textAlign: "center"
+		fontSize: "1em",
+		left: "0%",
+		position: "absolute",
+		textAlign: "center",
+		top: "35%",
+		width: "100%",
 	},
 	'popUpContent': {
 		maxWidth: "100%",
@@ -28,6 +36,6 @@ var styles = {
 		borderRadius: "5px",
 		padding: "10px 15px",
 	}
-}
+};
 
 export default styles;

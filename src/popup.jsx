@@ -9,7 +9,7 @@ let popup = (props) => {
 		return null;
 	}
 
-	let styles = {}
+	let styles = {};
 	styles.color = props.theme.color;
 	styles.fontFamily = Theme.fontFamily;
 	styles.background = Theme.default.fill;
@@ -20,27 +20,36 @@ let popup = (props) => {
 		//styles.width = props.width + "px";
 	}
 
+	const popUpWrapperClass = (props.retry) ? props.classes.popUpRetry : props.classes.popUp;
+
 	return (
-		<div className={props.classes.popUp}>
-			<div style={styles} className={props.classes.popUpContent}>
-				{ props.children }
+		<div className={popUpWrapperClass}>
+			<div
+				className={props.classes.popUpContent}
+				style={styles}
+			>
+				{props.children}
 			</div>
 		</div>
 	);
-}
+};
 
 popup.propTypes = {
+	children: PropTypes.node,
+	classes: PropTypes.object,
+	fontSize: PropTypes.string,
 	onlyIf: PropTypes.bool,
+	retry: PropTypes.bool,
 	text: PropTypes.string,
 	theme: PropTypes.any,
-	fontSize: PropTypes.string,
 	width: PropTypes.number
-}
+};
 
 popup.defaultTypes = {
-	text: "",
 	onlyIf: true,
+	retry: false,
+	text: "",
 	theme: Theme.default,
-}
+};
 
 export default withStyles(Styles)(popup);

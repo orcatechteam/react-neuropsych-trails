@@ -23,9 +23,11 @@ export default class Trails extends React.PureComponent {
 		onCompleted: PropTypes.func,
 		onError: PropTypes.func,
 		onMiss: PropTypes.func,
+		onRetry: PropTypes.func,
 		onSuccess: PropTypes.func,
 		part: PropTypes.string.isRequired,
 		progress: PropTypes.number,
+		retry: PropTypes.bool
 	}
 
 	static defaultProps = {
@@ -36,6 +38,9 @@ export default class Trails extends React.PureComponent {
 		errorDuration: 500,
 		completedText: "Completed!",
 		progress: 0,
+		retry: false,
+		retryText: "Would you like to retry?",
+		onRetry: () => {},
 		onSuccess: (date, token) => {},
 		onError: (date, correctToken, selectedToken) => {},
 		onCompleted: (date) => {},
@@ -188,7 +193,7 @@ export default class Trails extends React.PureComponent {
 					End
 				</text>
 			</React.Fragment>
-		)
+		);
 	}
 
 	renderSVG = (dim) => {
@@ -221,6 +226,23 @@ export default class Trails extends React.PureComponent {
 		);
 	}
 
+	renderCompletionContent = () => {
+		if (this.props.retry === false) {
+			return this.props.completedText;
+		}
+		return (
+			<div style={{ marginTop: '10px' }}>
+				<p>{this.props.retryText}</p>
+				<button
+					onClick={this.props.onRetry}
+					style={{ color: 'white', background: '#333', border: 'none', fontSize: '1rem', marginTop: '10px' }}
+				>
+					Retry
+				</button>
+			</div>
+		);
+	}
+
 	render() {
 		let trail = this.trail();
 		return (
@@ -239,9 +261,10 @@ export default class Trails extends React.PureComponent {
 				<PopUp
 					onlyIf={this.props.progress >= trail.tokens.length}
 					theme={Theme.success}
+					retry={this.props.retry}
 					width={trail.width}
 				>
-					{this.props.completedText}
+					{this.renderCompletionContent()}
 				</PopUp>
 			</div>
 		);
